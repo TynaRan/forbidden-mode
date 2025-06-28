@@ -327,7 +327,15 @@ for _,obj in pairs(game.Workspace:GetChildren()) do
 if string.find(obj.Name,"SeekMovingNewClone") then
 seekExists = true break end end
 if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
-require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("What's that???",true)				
+require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("What's that???",true)
+local cue2 = Instance.new("Sound")
+	cue2.Parent = game.Workspace
+	cue2.Name = "Spawn"
+	cue2.SoundId = "rbxassetid://3359047385"
+	cue2.Volume = 1
+	cue2.PlaybackSpeed = 1
+	cue2:Play()
+wait(1)	
 myEntity2:Run()
 break
 end
