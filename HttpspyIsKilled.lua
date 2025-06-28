@@ -282,7 +282,7 @@ TeaseMax = 2
 local myEntity2 = CreateCustomEntity(
 {
 Name = "Surge",
-Asset = "rbxassetid://15130436253",
+Asset = "rbxassetid://13404145962",
 HeightOffset = 1,
 Speed = 700,
 DamageAmount = 1,
