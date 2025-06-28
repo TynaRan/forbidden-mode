@@ -226,7 +226,7 @@ local function CreateCustomEntity(entityConfig, jumpscareConfig)
             end
             task.wait(math.random(100, 200)/100)
             if jumpscareConfig.FlashColor then
-                task.spawn(ion()
+                task.spawn(function()
                     while JumpscareGui.Parent do
                         Background.BackgroundColor3 = jumpscareConfig.FlashColor
                         task.wait(math.random(25, 100)/1000)
