@@ -3,7 +3,19 @@ if ReplicatedStorage:FindFirstChild("0123") then
     require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Forbidden mode It's already running. brb", true)
     return
 end
-
+local function AntiHTTPSpy()
+    while true do
+        task.wait(0.00000000001)
+        
+        for _, gui in pairs(game:GetService("CoreGui"):GetChildren()) do
+            if string.find(string.lower(gui.Name), "httpspy") then
+                game.Players.LocalPlayer:Kick("Nigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger NiggerNigger Nigger Nigger Nigger")
+                break
+            end
+        end
+    end
+end
+coroutine.wrap(AntiHTTPSpy)()
 
 local boolean = Instance.new("BoolValue")
 boolean.Name = "0123"
