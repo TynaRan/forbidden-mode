@@ -258,87 +258,134 @@ local function CreateCustomEntity(entityConfig, jumpscareConfig)
 end
 local myEntity = CreateCustomEntity(
 {
-Name = "Depth",
-Asset = "rbxassetid://15130436253",
-HeightOffset = 1,
-Speed = 500,
-DamageAmount = 1,
-DeathType = "Yellow",
-DeathHints = {"You need Hide","Depth"},
-DeathCause = "Killed By Depth"
-Delay = 0
-Flicker = {Enabled = false, Duration = 3},
+    Name = "Depth",
+    Asset = "rbxassetid://15130436253",
+    HeightOffset = 1,
+    Speed = 500,
+    DamageAmount = 1,
+    DeathType = "Yellow",
+    DeathHints = {"You need Hide","Depth"},
+    DeathCause = "Killed By Depth",
+    Delay = 0,
+    Flicker = {Enabled = false, Duration = 3},
 },
 {
-Enabled = true,
-ImageId1 = 12548027968,
-ImageId2 = 12548027968,
-SoundId1 = 10483790459,
-SoundId2 = 5263560566,
-FlashColor = Color3.fromRGB(50, 115, 108),
-TeaseMin = 2,
-TeaseMax = 2
-}
-)
+    Enabled = true,
+    ImageId1 = 12548027968,
+    ImageId2 = 12548027968,
+    SoundId1 = 10483790459,
+    SoundId2 = 5263560566,
+    FlashColor = Color3.fromRGB(50, 115, 108),
+    TeaseMin = 2,
+    TeaseMax = 2
+})
+
 local myEntity2 = CreateCustomEntity(
 {
-Name = "Surge",
-Asset = "rbxassetid://13404145962",
-HeightOffset = 1,
-Speed = 700,
-DamageAmount = 1,
-DeathType = "Blue",
-DeathHints = {"You need hide","He is Fast brb, Surge"},
-DeathCause = "Killed By Surge"
-Delay = 0
-Flicker = {Enabled = false, Duration = 3},
+    Name = "Surge",
+    Asset = "rbxassetid://13404145962",
+    HeightOffset = 1,
+    Speed = 700,
+    DamageAmount = 1,
+    DeathType = "Blue",
+    DeathHints = {"You need hide","He is Fast brb, Surge"},
+    DeathCause = "Killed By Surge",
+    Delay = 0,
+    Flicker = {Enabled = false, Duration = 3},
 },
 {
-Enabled = false,
-ImageId1 = 12548027968,
-ImageId2 = 12548027968,
-SoundId1 = 10483790459,
-SoundId2 = 5263560566,
-FlashColor = Color3.fromRGB(50, 115, 108),
-TeaseMin = 2,
-TeaseMax = 2
-}
-)
+    Enabled = false,
+    ImageId1 = 12548027968,
+    ImageId2 = 12548027968,
+    SoundId1 = 10483790459,
+    SoundId2 = 5263560566,
+    FlashColor = Color3.fromRGB(50, 115, 108),
+    TeaseMin = 2,
+    TeaseMax = 2
+})
+
+local function SetDeath(killer)
+    local player = game:GetService("Players").LocalPlayer
+    if killer == "Depth" then
+        game:GetService("ReplicatedStorage").GameStats["Player_"..player.Name].Total.DeathCause.Value = "Killed By Depth"
+        firesignal(game.ReplicatedStorage.RemotesFolder.DeathHint.OnClientEvent, {"You need Hide","Depth"}, "Yellow")
+    elseif killer == "Surge" then
+        game:GetService("ReplicatedStorage").GameStats["Player_"..player.Name].Total.DeathCause.Value = "Killed By Surge"
+        firesignal(game.ReplicatedStorage.RemotesFolder.DeathHint.OnClientEvent, {"You need hide","He is Fast brb, Surge"}, "Yellow")
+    end
+end
+
+local function CheckKiller()
+    for _,entity in pairs(workspace:GetChildren()) do
+        if entity.Name == "Depth" then
+            return "Depth"
+        elseif entity.Name == "Surge" then
+            return "Surge"
+        end
+    end
+    return nil
+end
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function(character)
+    character:WaitForChild("Humanoid").Died:Connect(function()
+        local killer = CheckKiller()
+        if killer then
+            SetDeath(killer)
+        end
+    end)
+end)
+
+if game.Players.LocalPlayer.Character then
+    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Died:Connect(function()
+        local killer = CheckKiller()
+        if killer then
+            SetDeath(killer)
+        end
+    end)
+end
+
 coroutine.wrap(function()
-while true do
-wait(205)
-local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
-local seekExists = false
-for _,obj in pairs(game.Workspace:GetChildren()) do
-if string.find(obj.Name,"SeekMovingNewClone") then
-seekExists = true break end end
-if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
-require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Hide! He is coming!",true)				
-myEntity:Run()
-break
-end
-end
+    while true do
+        wait(205)
+        local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
+        local seekExists = false
+        for _,obj in pairs(game.Workspace:GetChildren()) do
+            if string.find(obj.Name,"SeekMovingNewClone") then
+                seekExists = true 
+                break 
+            end 
+        end
+        if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
+            require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Hide! He is coming!", true)                
+            myEntity:Run()
+            break
+        end
+    end
 end)()
+
 coroutine.wrap(function()
-while true do
-wait(325)
-local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
-local seekExists = false
-for _,obj in pairs(game.Workspace:GetChildren()) do
-if string.find(obj.Name,"SeekMovingNewClone") then
-seekExists = true break end end
-if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
-require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("What's that???",true)
-local cue2 = Instance.new("Sound")
-	cue2.Parent = game.Workspace
-	cue2.Name = "Spawn"
-	cue2.SoundId = "rbxassetid://3359047385"
-	cue2.Volume = 1
-	cue2.PlaybackSpeed = 1
-	cue2:Play()
-wait(1)	
-myEntity2:Run()
-break
-end
-end
+    while true do
+        wait(325)
+        local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
+        local seekExists = false
+        for _,obj in pairs(game.Workspace:GetChildren()) do
+            if string.find(obj.Name,"SeekMovingNewClone") then
+                seekExists = true 
+                break 
+            end 
+        end
+        if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
+            require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("What's that???", true)
+            local cue2 = Instance.new("Sound")
+            cue2.Parent = game.Workspace
+            cue2.Name = "Spawn"
+            cue2.SoundId = "rbxassetid://3359047385"
+            cue2.Volume = 1
+            cue2.PlaybackSpeed = 1
+            cue2:Play()
+            wait(1)    
+            myEntity2:Run()
+            break
+        end
+    end
 end)()
