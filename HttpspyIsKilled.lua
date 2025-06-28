@@ -110,151 +110,152 @@ wait(0.01)
 end
 end)()
 local function CreateCustomEntity(entityConfig, jumpscareConfig)
-local spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Doors/Entity%20Spawner/V2/Source.lua"))()
+    local spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Doors/Entity%20Spawner/V2/Source.lua"))()
 
-local function SetDeathCause(cause, messages, color)
-local player = game:GetService("Players").LocalPlayer
-game:GetService("ReplicatedStorage").GameStats["Player_"..player.Name].Total.DeathCause.Value = cause
-firesignal(game.ReplicatedStorage.RemotesFolder.DeathHint.OnClientEvent, messages, color)
-end
+    local function SetDeathCause(cause, messages, color)
+        local player = game:GetService("Players").LocalPlayer
+        game:GetService("ReplicatedStorage").GameStats["Player_"..player.Name].Total.DeathCause.Value = cause
+        firesignal(game.ReplicatedStorage.RemotesFolder.DeathHint.OnClientEvent, messages, color)
+    end
 
-local entity = spawner.Create({
-Entity = {
-Name = entityConfig.Name or "Depth",
-Asset = entityConfig.Asset or "rbxassetid://15130436253",
-HeightOffset = entityConfig.HeightOffset or 1
-},
-Lights = {
-Flicker = entityConfig.Flicker or {Enabled = true, Duration = 3},
-Shatter = entityConfig.Shatter ~= false,
-Repair = entityConfig.Repair or false
-},
-Earthquake = {
-Enabled = entityConfig.Earthquake or false
-},
-CameraShake = {
-Enabled = entityConfig.CameraShake ~= false,
-Range = entityConfig.ShakeRange or 100,
-Values = entityConfig.ShakeValues or {5, 15, 0.1, 1}
-},
-Movement = {
-Speed = entityConfig.Speed or 350,
-Delay = entityConfig.MoveDelay or 5,
-Reversed = entityConfig.Reversed or false
-},
-Rebounding = {
-Enabled = entityConfig.Rebounding ~= false,
-Type = entityConfig.ReboundType or "Ambush",
-Min = entityConfig.ReboundMin or 2,
-Max = entityConfig.ReboundMax or 4,
-Delay = entityConfig.ReboundDelay or 2
-},
-Damage = {
-Enabled = entityConfig.Damage ~= false,
-Range = entityConfig.DamageRange or 100,
-Amount = entityConfig.DamageAmount or 1
-},
-Crucifixion = {
-Enabled = entityConfig.Crucifixion ~= false,
-Range = entityConfig.CrucifixRange or 40,
-Resist = entityConfig.CrucifixResist or false,
-Break = entityConfig.CrucifixBreak ~= false
-},
-Death = {
-Type = entityConfig.DeathType or "Blue",
-Hints = entityConfig.DeathHints or {"You need hide","Depth"},
-Cause = entityConfig.DeathCause or "Killed By Depth"
-}
-})
+    local entity = spawner.Create({
+        Entity = {
+            Name = entityConfig.Name or "Depth",
+            Asset = entityConfig.Asset or "rbxassetid://15130436253",
+            HeightOffset = entityConfig.HeightOffset or 1
+        },
+        Lights = {
+            Flicker = entityConfig.Flicker or {Enabled = true, Duration = 3},
+            Shatter = entityConfig.Shatter ~= false,
+            Repair = entityConfig.Repair or false
+        },
+        Earthquake = {
+            Enabled = entityConfig.Earthquake or false
+        },
+        CameraShake = {
+            Enabled = entityConfig.CameraShake ~= false,
+            Range = entityConfig.ShakeRange or 100,
+            Values = entityConfig.ShakeValues or {5, 15, 0.1, 1}
+        },
+        Movement = {
+            Speed = entityConfig.Speed or 350,
+            Delay = entityConfig.MoveDelay or 5,
+            Reversed = entityConfig.Reversed or false
+        },
+        Rebounding = {
+            Enabled = entityConfig.Rebounding ~= false,
+            Type = entityConfig.ReboundType or "Ambush",
+            Min = entityConfig.ReboundMin or 2,
+            Max = entityConfig.ReboundMax or 4,
+            Delay = entityConfig.ReboundDelay or 2
+        },
+        Damage = {
+            Enabled = entityConfig.Damage ~= false,
+            Range = entityConfig.DamageRange or 100,
+            Amount = entityConfig.DamageAmount or 1
+        },
+        Crucifixion = {
+            Enabled = entityConfig.Crucifixion ~= false,
+            Range = entityConfig.CrucifixRange or 40,
+            Resist = entityConfig.CrucifixResist or false,
+            Break = entityConfig.CrucifixBreak ~= false
+        },
+        Death = {
+            Type = entityConfig.DeathType or "Blue",
+            Hints = entityConfig.DeathHints or {"You need hide","Depth"},
+            Cause = entityConfig.DeathCause or "Killed By Depth"
+        }
+    })
 
-if jumpscareConfig and jumpscareConfig.Enabled ~= false then
-entity:SetCallback("OnDamagePlayer", function(newHealth)
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-local TS = game:GetService("TweenService")
-local CG = game:GetService("CoreGui")
-local MinTeaseSize = jumpscareConfig.MinSize or 150
-local MaxTeaseSize = jumpscareConfig.MaxSize or 750
-local image1 = "rbxassetid://"..tostring(jumpscareConfig.ImageId1 or 12548027968)
-local image2 = "rbxassetid://"..tostring(jumpscareConfig.ImageId2 or 12548027968)
-local JumpscareGui = Instance.new("ScreenGui")
-local Background = Instance.new("Frame")
-local Face = Instance.new("ImageLabel")
-JumpscareGui.Name = "JumpscareGui"
-JumpscareGui.IgnoreGuiInset = true
-JumpscareGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-Background.Name = "Background"
-Background.BackgroundColor3 = Color3.new(0, 0, 0)
-Background.BorderSizePixel = 0
-Background.Size = UDim2.new(1, 0, 1, 0)
-Background.ZIndex = 999
-Face.Name = "Face"
-Face.AnchorPoint = Vector2.new(0.5, 0.5)
-Face.BackgroundTransparency = 1
-Face.Position = UDim2.new(0.5, 0, 0.5, 0)
-Face.ResampleMode = Enum.ResamplerMode.Pixelated
-Face.Size = UDim2.new(0, MinTeaseSize, 0, MinTeaseSize)
-Face.Image = image1
-Face.Parent = Background
-Background.Parent = JumpscareGui
-JumpscareGui.Parent = CG
-if jumpscareConfig.SoundId1 then
-local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://"..tostring(jumpscareConfig.SoundId1)
-sound.Volume = jumpscareConfig.Sound1Volume or 1
-sound.PlayOnRemove = true
-sound.Parent = JumpscareGui
-sound:Destroy()
-end
-local rdmTease = math.random(jumpscareConfig.TeaseMin or 4, jumpscareConfig.TeaseMax or 4)
-for _ = 1, rdmTease do
-task.wait(math.random(100, 200)/100)
-local growFactor = (MaxTeaseSize-MinTeaseSize)/rdmTease
-Face.Size = UDim2.new(0, Face.AbsoluteSize.X+growFactor, 0, Face.AbsoluteSize.Y+growFactor)
-end
-task.wait(math.random(100, 200)/100)
-if jumpscareConfig.FlashColor then
-task.spawn(function()
-while JumpscareGui.Parent do
-Background.BackgroundColor3 = jumpscareConfig.FlashColor
-task.wait(math.random(25, 100)/1000)
-Background.BackgroundColor3 = Color3.new(0, 0, 0)
-task.wait(math.random(25, 100)/1000)
-end
-end)
-end
-if jumpscareConfig.ShakeEnabled ~= false then
-task.spawn(function()
-local origin = Face.Position
-while JumpscareGui.Parent do
-Face.Position = origin + UDim2.new(0, math.random(-10, 10), 0, math.random(-10, 10))
-Face.Rotation = math.random(-5, 5)
-task.wait()
-end
-end)
-end
-if jumpscareConfig.SoundId2 then
-local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://"..tostring(jumpscareConfig.SoundId2)
-sound.Volume = jumpscareConfig.Sound2Volume or 5
-sound.PlayOnRemove = true
-sound.Parent = JumpscareGui
-sound:Destroy()
-end
-Face.Image = image2
-Face.Size = UDim2.new(0, 750, 0, 750)
-TS:Create(Face, TweenInfo.new(0.75), {
-Size = UDim2.new(0, 2000, 0, 2000),
-ImageTransparency = 0.5
-}):Play()
-task.wait(0.75)
-JumpscareGui:Destroy()
---game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end)
-end
+    entity:SetCallback("OnDamagePlayer", function(newHealth)
+        game.Players.LocalPlayer.Character.Humanoid.Health = 0
+        
+        if jumpscareConfig and jumpscareConfig.Enabled ~= false then
+            local TS = game:GetService("TweenService")
+            local CG = game:GetService("CoreGui")
+            local MinTeaseSize = jumpscareConfig.MinSize or 150
+            local MaxTeaseSize = jumpscareConfig.MaxSize or 750
+            local image1 = "rbxassetid://"..tostring(jumpscareConfig.ImageId1 or 12548027968)
+            local image2 = "rbxassetid://"..tostring(jumpscareConfig.ImageId2 or 12548027968)
+            local JumpscareGui = Instance.new("ScreenGui")
+            local Background = Instance.new("Frame")
+            local Face = Instance.new("ImageLabel")
+            JumpscareGui.Name = "JumpscareGui"
+            JumpscareGui.IgnoreGuiInset = true
+            JumpscareGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+            Background.Name = "Background"
+            Background.BackgroundColor3 = Color3.new(0, 0, 0)
+            Background.BorderSizePixel = 0
+            Background.Size = UDim2.new(1, 0, 1, 0)
+            Background.ZIndex = 999
+            Face.Name = "Face"
+            Face.AnchorPoint = Vector2.new(0.5, 0.5)
+            Face.BackgroundTransparency = 1
+            Face.Position = UDim2.new(0.5, 0, 0.5, 0)
+            Face.ResampleMode = Enum.ResamplerMode.Pixelated
+            Face.Size = UDim2.new(0, MinTeaseSize, 0, MinTeaseSize)
+            Face.Image = image1
+            Face.Parent = Background
+            Background.Parent = JumpscareGui
+            JumpscareGui.Parent = CG
+            if jumpscareConfig.SoundId1 then
+                local sound = Instance.new("Sound")
+                sound.SoundId = "rbxassetid://"..tostring(jumpscareConfig.SoundId1)
+                sound.Volume = jumpscareConfig.Sound1Volume or 1
+                sound.PlayOnRemove = true
+                sound.Parent = JumpscareGui
+                sound:Destroy()
+            end
+            local rdmTease = math.random(jumpscareConfig.TeaseMin or 4, jumpscareConfig.TeaseMax or 4)
+            for _ = 1, rdmTease do
+                task.wait(math.random(100, 200)/100)
+                local growFactor = (MaxTeaseSize-MinTeaseSize)/rdmTease
+                Face.Size = UDim2.new(0, Face.AbsoluteSize.X+growFactor, 0, Face.AbsoluteSize.Y+growFactor)
+            end
+            task.wait(math.random(100, 200)/100)
+            if jumpscareConfig.FlashColor then
+                task.spawn(ion()
+                    while JumpscareGui.Parent do
+                        Background.BackgroundColor3 = jumpscareConfig.FlashColor
+                        task.wait(math.random(25, 100)/1000)
+                        Background.BackgroundColor3 = Color3.new(0, 0, 0)
+                        task.wait(math.random(25, 100)/1000)
+                    end
+                end)
+            end
+            if jumpscareConfig.ShakeEnabled ~= false then
+                task.spawn(function()
+                    local origin = Face.Position
+                    while JumpscareGui.Parent do
+                        Face.Position = origin + UDim2.new(0, math.random(-10, 10), 0, math.random(-10, 10))
+                        Face.Rotation = math.random(-5, 5)
+                        task.wait()
+                    end
+                end)
+            end
+            if jumpscareConfig.SoundId2 then
+                local sound = Instance.new("Sound")
+                sound.SoundId = "rbxassetid://"..tostring(jumpscareConfig.SoundId2)
+                sound.Volume = jumpscareConfig.Sound2Volume or 5
+                sound.PlayOnRemove = true
+                sound.Parent = JumpscareGui
+                sound:Destroy()
+            end
+            Face.Image = image2
+            Face.Size = UDim2.new(0, Face.AbsoluteSize.X+growFactor, 0, Face.AbsoluteSize.Y+growFactor)
+            task.wait(math.random(100, 200)/100)
+            Face.Size = UDim2.new(0, 750, 0, 750)
+            TS:Create(Face, TweenInfo.new(0.75), {
+                Size = UDim2.new(0, 2000, 0, 2000),
+                ImageTransparency = 0.5
+            }):Play()
+            task.wait(0.75)
+            JumpscareGui:Destroy()
+        end
+    end)
 
-return entity
+    return entity
 end
-
 local myEntity = CreateCustomEntity(
 {
 Name = "Depth",
