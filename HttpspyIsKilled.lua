@@ -111,6 +111,13 @@ end
 end)()
 local function CreateCustomEntity(entityConfig, jumpscareConfig)
 local spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Doors/Entity%20Spawner/V2/Source.lua"))()
+
+local function SetDeathCause(cause, messages, color)
+local player = game:GetService("Players").LocalPlayer
+game:GetService("ReplicatedStorage").GameStats["Player_"..player.Name].Total.DeathCause.Value = cause
+firesignal(game.ReplicatedStorage.RemotesFolder.DeathHint.OnClientEvent, messages, color)
+end
+
 local entity = spawner.Create({
 Entity = {
 Name = entityConfig.Name or "Depth",
@@ -154,14 +161,15 @@ Resist = entityConfig.CrucifixResist or false,
 Break = entityConfig.CrucifixBreak ~= false
 },
 Death = {
-Type = entityConfig.DeathType or "Guiding",
-Hints = entityConfig.DeathHints or {"You Died to who you call..", "Dread!", "First his watch appears, Then he appears too!", "LMFAO STUPID NIGGA"},
-Cause = entityConfig.DeathCause or ""
+Type = entityConfig.DeathType or "Blue",
+Hints = entityConfig.DeathHints or {"You need hide","Depth"},
+Cause = entityConfig.DeathCause or "Killed By Depth"
 }
 })
 
 if jumpscareConfig and jumpscareConfig.Enabled ~= false then
 entity:SetCallback("OnDamagePlayer", function(newHealth)
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
 local TS = game:GetService("TweenService")
 local CG = game:GetService("CoreGui")
 local MinTeaseSize = jumpscareConfig.MinSize or 150
@@ -240,20 +248,13 @@ ImageTransparency = 0.5
 }):Play()
 task.wait(0.75)
 JumpscareGui:Destroy()
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-local p = game:GetService("Players").LocalPlayer
-local c=p.Character or p.CharacterAdded:Wait()
-local function SetDeathCause(cause, messages, color)
-local player = game:GetService("Players").LocalPlayer
-game:GetService("ReplicatedStorage").GameStats["Player_"..player.Name].Total.DeathCause.Value = cause
-firesignal(game.ReplicatedStorage.RemotesFolder.DeathHint.OnClientEvent, messages, color)
-end
-SetDeathCause(entityConfig.DeathCause, entityConfig.DeathHints, entityConfig.DeathType)
+--game.Players.LocalPlayer.Character.Humanoid.Health = 0
 end)
 end
 
 return entity
 end
+
 local myEntity = CreateCustomEntity(
 {
 Name = "Depth",
@@ -261,11 +262,11 @@ Asset = "rbxassetid://15130436253",
 HeightOffset = 1,
 Speed = 500,
 DamageAmount = 1,
-Death = {  
-Type = "Guiding",
-Hints = {"You need hide","Depth"},
-Cause = "Killed By Depth"
-}
+DeathType = "Yellow",
+DeathHints = {"You need Hide","Depth"},
+DeathCause = "Killed By Depth"
+Delay = 0
+Flicker = {Enabled = false, Duration = 3},
 },
 {
 Enabled = true,
@@ -278,17 +279,56 @@ TeaseMin = 2,
 TeaseMax = 2
 }
 )
-
+local myEntity2 = CreateCustomEntity(
+{
+Name = "Surge",
+Asset = "rbxassetid://15130436253",
+HeightOffset = 1,
+Speed = 700,
+DamageAmount = 1,
+DeathType = "Blue",
+DeathHints = {"You need hide","He is Fast brb, Surge"},
+DeathCause = "Killed By Surge"
+Delay = 0
+Flicker = {Enabled = false, Duration = 3},
+},
+{
+Enabled = false,
+ImageId1 = 12548027968,
+ImageId2 = 12548027968,
+SoundId1 = 10483790459,
+SoundId2 = 5263560566,
+FlashColor = Color3.fromRGB(50, 115, 108),
+TeaseMin = 2,
+TeaseMax = 2
+}
+)
 coroutine.wrap(function()
 while true do
-wait(605)
+wait(205)
 local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
 local seekExists = false
 for _,obj in pairs(game.Workspace:GetChildren()) do
 if string.find(obj.Name,"SeekMovingNewClone") then
 seekExists = true break end end
 if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
+require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Hide! He is coming!",true)				
 myEntity:Run()
+break
+end
+end
+end)()
+coroutine.wrap(function()
+while true do
+wait(325)
+local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
+local seekExists = false
+for _,obj in pairs(game.Workspace:GetChildren()) do
+if string.find(obj.Name,"SeekMovingNewClone") then
+seekExists = true break end end
+if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
+require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("What's that???",true)				
+myEntity2:Run()
 break
 end
 end
