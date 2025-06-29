@@ -245,6 +245,14 @@ local function CreateCustomEntity(entityConfig, jumpscareConfig)
 
     return entity
 end
+game:GetService("ReplicatedStorage").GameData.LatestRoom.Changed:Connect(function(v)
+	L = game:GetService("Workspace").CurrentRooms[v].PathfindNodes:Clone()
+	L.Parent = game:GetService("Workspace").CurrentRooms[v]
+	L = game:GetService("Workspace").CurrentRooms[v].PathfindNodes:Clone()
+	L.Parent = game:GetService("Workspace").CurrentRooms[v]
+	L.Name = 'Nodes'
+end)
+game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game.Health.Music.Blue.Pitch = 0.55
 local myEntity = CreateCustomEntity(
 {
     Name = "Depth",
@@ -276,7 +284,7 @@ local myEntity2 = CreateCustomEntity(
     HeightOffset = 1,
     Speed = 700,
     DamageAmount = 1,
-    DeathType = "Blue",
+    DeathType = "Yellow",
     DeathHints = {"You need hide","He is Fast brb, Surge"},
     DeathCause = "Killed By Surge",
     Delay = 0,
@@ -292,25 +300,31 @@ local myEntity2 = CreateCustomEntity(
     TeaseMin = 2,
     TeaseMax = 2
 })
+local myEntity3 = CreateCustomEntity(
+{
+    Name = "A60_Mod",
+    Asset = "rbxassetid://12263106166",
+    HeightOffset = 1,
+    Speed = 950,
+    DamageAmount = 1,
+    DeathType = "Yellow",
+    DeathHints = {"You need hide","He is Multiple monsters..."},
+    DeathCause = "Killed By A60",
+    Delay = 0,
+    Flicker = {Enabled = false, Duration = 3},
+},
+{
+    Enabled = false,
+    ImageId1 = 12548027968,
+    ImageId2 = 12548027968,
+    SoundId1 = 10483790459,
+    SoundId2 = 5263560566,
+    FlashColor = Color3.fromRGB(50, 115, 108),
+    TeaseMin = 2,
+    TeaseMax = 2
+})
 local player = game.Players.LocalPlayer
 
-player.Chatted:Connect(function(message)
-    if message == "/spawn surge" then
-        require(player.PlayerGui.MainUI.Initiator.Main_Game).caption("What's that???", true)
-        local cue2 = Instance.new("Sound")
-        cue2.Parent = game.Workspace
-        cue2.Name = "Spawn"
-        cue2.SoundId = "rbxassetid://3359047385"
-        cue2.Volume = 1
-        cue2.PlaybackSpeed = 1
-        cue2:Play()
-        task.wait(1)    
-        myEntity2:Run()
-    elseif message == "/spawn depth" then
-        require(player.PlayerGui.MainUI.Initiator.Main_Game).caption("Hide! He is coming!", true)                
-        myEntity:Run()
-    end
-end)
 local function SetDeath(killer)
     local player = game:GetService("Players").LocalPlayer
     if killer == "Depth" then
@@ -319,6 +333,9 @@ local function SetDeath(killer)
     elseif killer == "Surge" then
         game:GetService("ReplicatedStorage").GameStats["Player_"..player.Name].Total.DeathCause.Value = "Killed By Surge"
         firesignal(game.ReplicatedStorage.RemotesFolder.DeathHint.OnClientEvent, {"You need hide","He is Fast brb, Surge"}, "Yellow")
+   elseif killer == "A60_Mod" then
+        game:GetService("ReplicatedStorage").GameStats["Player_"..player.Name].Total.DeathCause.Value = "Killed By A60"
+        firesignal(game.ReplicatedStorage.RemotesFolder.DeathHint.OnClientEvent, {"You need Quickly hide...","He is Multiple monster good luck...."}, "Yellow") 
     end
 end
 
@@ -328,6 +345,8 @@ local function CheckKiller()
             return "Depth"
         elseif entity.Name == "Surge" then
             return "Surge"
+        elseif entity.Name == "A60_Mod" then
+            return "A60_Mod"
         end
     end
     return nil
@@ -350,7 +369,24 @@ if game.Players.LocalPlayer.Character then
         end
     end)
 end
-
+coroutine.wrap(function()
+    while true do
+        wait(435)
+        local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
+        local seekExists = false
+        for _,obj in pairs(game.Workspace:GetChildren()) do
+            if string.find(obj.Name,"SeekMovingNewClone") then
+                seekExists = true 
+                break 
+            end 
+        end
+        if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
+            require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("I feel guilty and panic...", true)                
+            myEntity3:Run()
+            break
+        end
+    end
+end)()
 coroutine.wrap(function()
     while true do
         wait(205)
@@ -375,6 +411,7 @@ coroutine.wrap(function()
         wait(325)
         local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
         local seekExists = false
+            
         for _,obj in pairs(game.Workspace:GetChildren()) do
             if string.find(obj.Name,"SeekMovingNewClone") then
                 seekExists = true 
