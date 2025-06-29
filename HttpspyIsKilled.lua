@@ -78,7 +78,8 @@ require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("
 wait(1)
 require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Loaded",true)
 game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
-require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Credits By RegularVynixu and Bad Darkness What hell????",true)
+require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Fix Credits :RegularVynixu Bad Darkness Original :Noah TheOneGuyRuben Jabbiss Nautic...",true)
+
 local shut = game.Players.LocalPlayer.PlayerGui.MainUI.MainFrame.IntroText
 local intro = shut:Clone()
 intro.Parent = game.Players.LocalPlayer.PlayerGui.MainUI
