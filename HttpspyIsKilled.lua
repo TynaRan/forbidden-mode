@@ -3,6 +3,28 @@ if ReplicatedStorage:FindFirstChild("0123") then
     require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Forbidden mode It's already running. brb", true)
     return
 end
+local function changeDoorMaterial()
+    while true do
+        local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
+        local roomdoor = game.Workspace.CurrentRooms[latestRoom].Door.Door
+        roomdoor.Material = Enum.Material.DiamondPlate
+        task.wait(0.1)
+    end
+end
+
+local function changeOpenSound()
+    while true do
+        game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
+        for _, sound in pairs(game.Workspace.CurrentRooms:GetDescendants()) do
+            if sound.Name == "Open" and sound:IsA("Sound") then
+                sound.SoundId = "rbxassetid://833871080"
+            end
+        end
+    end
+end
+
+coroutine.wrap(changeDoorMaterial)()
+coroutine.wrap(changeOpenSound)()
 local function ReplaceAudGit(GithubSnd,SoundName)
 local url=GithubSnd
 local filePath=SoundName..".mp3"
