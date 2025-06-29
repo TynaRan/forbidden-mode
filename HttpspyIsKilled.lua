@@ -17,7 +17,9 @@ local function changeOpenSound()
         game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
         for _, sound in pairs(game.Workspace.CurrentRooms:GetDescendants()) do
             if sound.Name == "Open" and sound:IsA("Sound") then
-                sound.SoundId = "rbxassetid://833871080"
+                if sound.Parent and sound.Parent.Name == "Door" and sound.Parent:IsA("MeshPart") then
+                    sound.SoundId = "rbxassetid://833871080"
+                end
             end
         end
     end
