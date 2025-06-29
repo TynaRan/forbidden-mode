@@ -315,7 +315,25 @@ local myEntity2 = CreateCustomEntity(
     TeaseMin = 2,
     TeaseMax = 2
 })
+local player = game.Players.LocalPlayer
 
+player.Chatted:Connect(function(message)
+    if message == "/spawn surge" then
+        require(player.PlayerGui.MainUI.Initiator.Main_Game).caption("What's that???", true)
+        local cue2 = Instance.new("Sound")
+        cue2.Parent = game.Workspace
+        cue2.Name = "Spawn"
+        cue2.SoundId = "rbxassetid://3359047385"
+        cue2.Volume = 1
+        cue2.PlaybackSpeed = 1
+        cue2:Play()
+        task.wait(1)    
+        myEntity2:Run()
+    elseif message == "/spawn depth" then
+        require(player.PlayerGui.MainUI.Initiator.Main_Game).caption("Hide! He is coming!", true)                
+        myEntity:Run()
+    end
+end)
 local function SetDeath(killer)
     local player = game:GetService("Players").LocalPlayer
     if killer == "Depth" then
