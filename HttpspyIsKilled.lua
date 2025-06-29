@@ -97,27 +97,6 @@ game.TweenService:Create(intro.Underline, TweenInfo.new(7), {Size = UDim2.new(0,
 wait(2.3)
 intro.Visible = fals
 require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("F##k...",true)
-local function replaceSeekMusic(GithubSnd,SoundName)
-local customAsset=ReplaceAudGit(GithubSnd,SoundName)
-for _,obj in ipairs(workspace:GetDescendants())do
-if obj:IsA("Model")and obj.Name=="SeekMovingNewClone"then
-local seekMusic=obj:FindFirstChild("SeekMusic")
-if seekMusic and seekMusic:IsA("Sound")then
-seekMusic.SoundId=customAsset
-end
-end
-end
-end
-
-coroutine.wrap(function()
-while true do
---game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
-			
-replaceSeekMusic("https://github.com/Brololto/BUUMMM/blob/main/Screen_Recording_20230404-233303_YouTube%20(online-audio-converter.com).mp3?raw=true","Seek_RUN_frag")
-
-wait(0.01)
-end
-end)()
 local function CreateCustomEntity(entityConfig, jumpscareConfig)
     local spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Doors/Entity%20Spawner/V2/Source.lua"))()
 
