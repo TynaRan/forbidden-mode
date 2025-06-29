@@ -51,22 +51,16 @@ coroutine.wrap(function()
         wait(0.1)
     end
 end)()
-coroutine.wrap(function()
-    while true do
-        wait(0.0005)
-        game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
-        wait(0.0005)
-workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Open.SoundId = "rbxassetid://833871080"
-workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Open.SoundId = "rbxassetid://833871080"
-workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Open.SoundId = "rbxassetid://833871080"
-workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Open.SoundId = "rbxassetid://833871080"
-workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Unlock.SoundId = "rbxassetid://833871080"
-workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Unlock.SoundId = "rbxassetid://833871080"
-workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Unlock.SoundId = "rbxassetid://833871080"
-workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Unlock.SoundId = "rbxassetid://833871080"
 roomdoor.Open.SoundId = "rbxassetid://833871080"
 workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Door.Door.Unlock.SoundId = "rbxassetid://833871080"
-    end
+coroutine.wrap(function()
+while true do
+wait(0.0005)
+game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
+wait(0.0005)
+roomdoor.Open.SoundId = "rbxassetid://833871080"
+workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Door.Door.Unlock.SoundId = "rbxassetid://833871080"
+end
 end)()
 local SoundService = game:GetService("SoundService")
 SoundService.AmbientReverb = Enum.ReverbType.Bathroom
