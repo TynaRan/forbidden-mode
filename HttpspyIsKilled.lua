@@ -32,6 +32,27 @@ end)
 Spawn1()
 coroutine.wrap(function()
     while true do
+        local seekExists = false
+        for _, obj in pairs(game:GetService("Workspace"):GetChildren()) do
+            if string.find(obj.Name, "SeekMovingNewClone") then
+                seekExists = true
+                break  -- Uncommented the break as it's useful for efficiency
+            end
+        end
+
+        if seekExists then
+            replaceSeekMusic(
+                "https://github.com/Brololto/BUUMMM/blob/main/Screen_Recording_20230404-233303_YouTube%20(online-audio-converter.com).mp3?raw=true",
+                "Seek_RUN"
+            )
+            break  -- Fixed indentation
+        end
+
+        wait(0.1)
+    end
+end)()
+coroutine.wrap(function()
+    while true do
         wait(0.0005)
         game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
         wait(0.0005)
@@ -47,24 +68,8 @@ roomdoor.Open.SoundId = "rbxassetid://833871080"
 workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Door.Door.Unlock.SoundId = "rbxassetid://833871080"
     end
 end)()
-coroutine.wrap(function()
-while true do
---game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
-			
-replaceSeekMusic("https://github.com/Brololto/BUUMMM/blob/main/Screen_Recording_20230404-233303_YouTube%20(online-audio-converter.com).mp3?raw=true","Seek_RUN")
-
-wait(0.01)
-end
-end)()
-
---Log1
--- Get the SoundService
 local SoundService = game:GetService("SoundService")
-
--- Set the reverb to bathroom preset
 SoundService.AmbientReverb = Enum.ReverbType.Bathroom
-
--- Optional: Adjust other audio properties for better effect
 SoundService.DistanceFactor = 3.33  -- Typical bathroom size
 SoundService.RolloffScale = 1.5     -- Makes sound falloff more noticeable
 
