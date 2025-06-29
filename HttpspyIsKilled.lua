@@ -3,6 +3,60 @@ if ReplicatedStorage:FindFirstChild("0123") then
     require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Forbidden mode It's already running. brb", true)
     return
 end
+local function ReplaceAudGit(GithubSnd,SoundName)
+local url=GithubSnd
+local filePath=SoundName..".mp3"
+if not isfile(filePath)then
+writefile(filePath,game:HttpGet(url))
+end
+return(getcustomasset or getsynasset)(filePath)
+end
+local roomdoor = game.Workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Door.Door
+local function replaceSeekMusic(GithubSnd,SoundName)
+local customAsset=ReplaceAudGit(GithubSnd,SoundName)
+for _,obj in ipairs(workspace:GetDescendants())do
+if obj:IsA("Model")and obj.Name=="SeekMovingNewClone"then
+local seekMusic=obj:FindFirstChild("SeekMusic")
+if seekMusic and seekMusic:IsA("Sound")then
+seekMusic.SoundId=customAsset
+end
+end
+end
+end
+Spawn1 = coroutine.wrap(function()
+while task.wait(0) do
+roomdoor.Material = "DiamondPlate"
+roomdoor.Sign.Material = "DiamondPlate"
+end
+end)
+Spawn1()
+coroutine.wrap(function()
+    while true do
+        wait(0.0005)
+        game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
+        wait(0.0005)
+workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Open.SoundId = "rbxassetid://833871080"
+workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Open.SoundId = "rbxassetid://833871080"
+workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Open.SoundId = "rbxassetid://833871080"
+workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Open.SoundId = "rbxassetid://833871080"
+workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Unlock.SoundId = "rbxassetid://833871080"
+workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Unlock.SoundId = "rbxassetid://833871080"
+workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Unlock.SoundId = "rbxassetid://833871080"
+workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Parts.DoorNormal.Door.Unlock.SoundId = "rbxassetid://833871080"
+roomdoor.Open.SoundId = "rbxassetid://833871080"
+workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value].Door.Door.Unlock.SoundId = "rbxassetid://833871080"
+    end
+end)()
+coroutine.wrap(function()
+while true do
+--game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
+			
+replaceSeekMusic("https://github.com/Brololto/BUUMMM/blob/main/Screen_Recording_20230404-233303_YouTube%20(online-audio-converter.com).mp3?raw=true","Seek_RUN")
+
+wait(0.01)
+end
+end)()
+
 --Log1
 -- Get the SoundService
 local SoundService = game:GetService("SoundService")
