@@ -460,7 +460,7 @@ coroutine.wrap(function()
         if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
             require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("I feel guilty and panic...", true)                
             myEntity3:Run()
-            break
+            --break
         end
     end
 end)()
@@ -478,7 +478,7 @@ coroutine.wrap(function()
         if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
             require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Hide! He is coming!", true)                
             myEntity:Run()
-            break
+            --break
         end
     end
 end)()
@@ -506,7 +506,6 @@ coroutine.wrap(function()
             cue2:Play()
             wait(1)    
             myEntity2:Run()
-            break
         end
     end
 end)()
