@@ -402,6 +402,7 @@ coroutine.wrap(function()
         
         if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
             if depthTimer >= 205 then
+		depthTimer = 0
                 require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Hide! He is coming!", true)  
                 local myEntity = CreateCustomEntity({
                     Name = "Depth",
@@ -425,10 +426,10 @@ coroutine.wrap(function()
                     TeaseMax = 2
                 })
                 myEntity:Run()
-                depthTimer = 0
             end
             
             if surgeTimer >= 325 then
+		surgeTimer = 0
                 require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("What's that???", true)
                 local cue2 = Instance.new("Sound")
                 cue2.Parent = game.Workspace
@@ -460,10 +461,10 @@ coroutine.wrap(function()
                     TeaseMax = 2
                 })
                 myEntity2:Run()
-                surgeTimer = 0
             end
             
             if a60Timer >= 435 then
+		a60Timer = 0
                 require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("I feel guilty and panic...", true)
                 local myEntity3 = CreateCustomEntity({
                     Name = "A60_Mod",
@@ -487,7 +488,6 @@ coroutine.wrap(function()
                     TeaseMax = 2
                 })
                 myEntity3:Run()
-                a60Timer = 0
             end
         end
     end
