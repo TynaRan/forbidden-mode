@@ -66,7 +66,7 @@ coroutine.wrap(function()
 
         if seekExists then
             replaceSeekMusic(
-                "https://github.com/Brololto/BUUMMM/blob/main/Screen_Recording_20230404-233303_YouTube%20(online-audio-converter.com).mp3?raw=true",
+                "https://github.com/TynaRan/Fragmented-mode/blob/main/Fragmented%20mode%20V4%20seek%20chase.mp3?raw=true",
                 "Seek_RUN"
             )
             break  -- Fixed indentation
