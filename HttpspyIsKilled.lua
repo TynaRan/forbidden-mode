@@ -330,76 +330,7 @@ game:GetService("ReplicatedStorage").GameData.LatestRoom.Changed:Connect(functio
 	L.Name = 'Nodes'
 end)
 game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game.Health.Music.Blue.Pitch = 0.55
-local myEntity = CreateCustomEntity(
-{
-    Name = "Depth",
-    Asset = "rbxassetid://15130436253",
-    HeightOffset = 1,
-    Speed = 500,
-    DamageAmount = 1,
-    DeathType = "Yellow",
-    DeathHints = {"You need Hide","Depth"},
-    DeathCause = "Killed By Depth",
-    Delay = 0,
-    Flicker = {Enabled = false, Duration = 3},
-},
-{
-    Enabled = true,
-    ImageId1 = 12548027968,
-    ImageId2 = 12548027968,
-    SoundId1 = 10483790459,
-    SoundId2 = 5263560566,
-    FlashColor = Color3.fromRGB(50, 115, 108),
-    TeaseMin = 2,
-    TeaseMax = 2
-})
 
-local myEntity2 = CreateCustomEntity(
-{
-    Name = "Surge",
-    Asset = "rbxassetid://13404145962",
-    HeightOffset = 1,
-    Speed = 700,
-    DamageAmount = 1,
-    DeathType = "Yellow",
-    DeathHints = {"You need hide","He is Fast brb, Surge"},
-    DeathCause = "Killed By Surge",
-    Delay = 0,
-    Flicker = {Enabled = false, Duration = 3},
-},
-{
-    Enabled = false,
-    ImageId1 = 12548027968,
-    ImageId2 = 12548027968,
-    SoundId1 = 10483790459,
-    SoundId2 = 5263560566,
-    FlashColor = Color3.fromRGB(50, 115, 108),
-    TeaseMin = 2,
-    TeaseMax = 2
-})
-local myEntity3 = CreateCustomEntity(
-{
-    Name = "A60_Mod",
-    Asset = "rbxassetid://12263106166",
-    HeightOffset = 1,
-    Speed = 950,
-    DamageAmount = 1,
-    DeathType = "Yellow",
-    DeathHints = {"You need hide","He is Multiple monsters..."},
-    DeathCause = "Killed By A60",
-    Delay = 0,
-    Flicker = {Enabled = false, Duration = 3},
-},
-{
-    Enabled = false,
-    ImageId1 = 12548027968,
-    ImageId2 = 12548027968,
-    SoundId1 = 10483790459,
-    SoundId2 = 5263560566,
-    FlashColor = Color3.fromRGB(50, 115, 108),
-    TeaseMin = 2,
-    TeaseMax = 2
-})
 local player = game.Players.LocalPlayer
 
 local function SetDeath(killer)
@@ -446,66 +377,118 @@ if game.Players.LocalPlayer.Character then
         end
     end)
 end
-coroutine.wrap(function()
-    while true do
-        wait(435)
-        local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
-        local seekExists = false
-        for _,obj in pairs(game.Workspace:GetChildren()) do
-            if string.find(obj.Name,"SeekMovingNewClone") then
-                seekExists = true 
-                break 
-            end 
-        end
-        if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
-            require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("I feel guilty and panic...", true)                
-            myEntity3:Run()
-            --break
-        end
-    end
-end)()
-coroutine.wrap(function()
-    while true do
-        wait(205)
-        local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
-        local seekExists = false
-        for _,obj in pairs(game.Workspace:GetChildren()) do
-            if string.find(obj.Name,"SeekMovingNewClone") then
-                seekExists = true 
-                break 
-            end 
-        end
-        if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
-            require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Hide! He is coming!", true)                
-            myEntity:Run()
-            --break
-        end
-    end
-end)()
 
 coroutine.wrap(function()
+    local depthTimer = 0
+    local surgeTimer = 0
+    local a60Timer = 0
+    
     while true do
-        wait(325)
+        wait(1)
+        
+        depthTimer = depthTimer + 1
+        surgeTimer = surgeTimer + 1
+        a60Timer = a60Timer + 1
+        
         local latestRoom = game.ReplicatedStorage.GameData.LatestRoom.Value
         local seekExists = false
-            
-        for _,obj in pairs(game.Workspace:GetChildren()) do
-            if string.find(obj.Name,"SeekMovingNewClone") then
+        
+        for _, obj in pairs(game.Workspace:GetChildren()) do
+            if string.find(obj.Name, "SeekMovingNewClone") then
                 seekExists = true 
                 break 
             end 
         end
+        
         if not (latestRoom == 50 or latestRoom == 100 or seekExists) then
-            require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("What's that???", true)
-            local cue2 = Instance.new("Sound")
-            cue2.Parent = game.Workspace
-            cue2.Name = "Spawn"
-            cue2.SoundId = "rbxassetid://3359047385"
-            cue2.Volume = 1
-            cue2.PlaybackSpeed = 1
-            cue2:Play()
-            wait(1)    
-            myEntity2:Run()
+            if depthTimer >= 205 then
+                require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Hide! He is coming!", true)  
+                local myEntity = CreateCustomEntity({
+                    Name = "Depth",
+                    Asset = "rbxassetid://15130436253",
+                    HeightOffset = 1,
+                    Speed = 500,
+                    DamageAmount = 1,
+                    DeathType = "Yellow",
+                    DeathHints = {"You need Hide","Depth"},
+                    DeathCause = "Killed By Depth",
+                    Delay = 0,
+                    Flicker = {Enabled = false, Duration = 3}
+                }, {
+                    Enabled = true,
+                    ImageId1 = 12548027968,
+                    ImageId2 = 12548027968,
+                    SoundId1 = 10483790459,
+                    SoundId2 = 5263560566,
+                    FlashColor = Color3.fromRGB(50, 115, 108),
+                    TeaseMin = 2,
+                    TeaseMax = 2
+                })
+                myEntity:Run()
+                depthTimer = 0
+            end
+            
+            if surgeTimer >= 325 then
+                require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("What's that???", true)
+                local cue2 = Instance.new("Sound")
+                cue2.Parent = game.Workspace
+                cue2.Name = "Spawn"
+                cue2.SoundId = "rbxassetid://3359047385"
+                cue2.Volume = 1
+                cue2.PlaybackSpeed = 1
+                cue2:Play()
+                wait(1)
+                local myEntity2 = CreateCustomEntity({
+                    Name = "Surge",
+                    Asset = "rbxassetid://13404145962",
+                    HeightOffset = 1,
+                    Speed = 700,
+                    DamageAmount = 1,
+                    DeathType = "Yellow",
+                    DeathHints = {"You need hide","He is Fast brb, Surge"},
+                    DeathCause = "Killed By Surge",
+                    Delay = 0,
+                    Flicker = {Enabled = false, Duration = 3}
+                }, {
+                    Enabled = false,
+                    ImageId1 = 12548027968,
+                    ImageId2 = 12548027968,
+                    SoundId1 = 10483790459,
+                    SoundId2 = 5263560566,
+                    FlashColor = Color3.fromRGB(50, 115, 108),
+                    TeaseMin = 2,
+                    TeaseMax = 2
+                })
+                myEntity2:Run()
+                surgeTimer = 0
+            end
+            
+            if a60Timer >= 435 then
+                require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("I feel guilty and panic...", true)
+                local myEntity3 = CreateCustomEntity({
+                    Name = "A60_Mod",
+                    Asset = "rbxassetid://12263106166",
+                    HeightOffset = 1,
+                    Speed = 950,
+                    DamageAmount = 1,
+                    DeathType = "Yellow",
+                    DeathHints = {"You need hide","He is Multiple monsters..."},
+                    DeathCause = "Killed By A60",
+                    Delay = 0,
+                    Flicker = {Enabled = false, Duration = 3}
+                }, {
+                    Enabled = false,
+                    ImageId1 = 12548027968,
+                    ImageId2 = 12548027968,
+                    SoundId1 = 10483790459,
+                    SoundId2 = 5263560566,
+                    FlashColor = Color3.fromRGB(50, 115, 108),
+                    TeaseMin = 2,
+                    TeaseMax = 2
+                })
+                myEntity3:Run()
+                a60Timer = 0
+            end
         end
     end
 end)()
